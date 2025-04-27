@@ -127,13 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="Alphabet.txt" />
+    <Text Include="graphic.txt" />
     <Text Include="structure.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h" />
+    <ClInclude Include="nim.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="nim.cpp" />
+    <ClCompile Include="start.cpp" />
     <ClCompile Include="test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nim_game" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

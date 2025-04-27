@@ -16,9 +16,16 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="structure.txt" />
+    <Text Include="Alphabet.txt" />
+    <Text Include="graphic.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nim.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,5 +33,16 @@
     <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="nim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="start.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nim_game">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
