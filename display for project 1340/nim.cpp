@@ -141,7 +141,11 @@ public:
 // Train by self-play, using the “last” bookkeeping from your Python code
 NimAI train(int n_games, const std::vector<int>& map) {
 
+    erase();
     Display* display = Display::instance();
+
+    display->print("Training AI", 20, 40);
+    refresh();
 
     NimAI player;
     for (int i = 0; i < n_games; i++) {
@@ -178,7 +182,8 @@ NimAI train(int n_games, const std::vector<int>& map) {
             }
         }
     }
-    display->print_line("Done training");
+    erase();
+    display->print("Done training", 20, 40);
     refresh();
     return player;
 }
@@ -192,11 +197,13 @@ void play(NimAI& ai, const std::vector<int>& map) {
     std::uniform_int_distribution<int> coin(0, 1);
     int human_player = coin(rng);
 
+    int inp = 0;
+
     while (!game.game_over()) {
         //std::cout << "\nPiles:\n";
         erase();
 
-        display->printcharacters();
+        //display->printcharacters();
 
         auto piles = game.get_piles();
         /*for (int i = 0; i < (int)piles.size(); i++) {
@@ -211,10 +218,14 @@ void play(NimAI& ai, const std::vector<int>& map) {
         if (pl == human_player) {
             //display->print("Your turn", 5, 5);
             //while (true) {
+
+                //display->error(std::to_string(piles.size()));
+                //refresh();
+                //while(true) {}
             int pile = 0, count = 0;
             //std::cout << "  Choose pile: ";
 
-            while (piles[pile] == 0 && pile < piles.size() - 1)
+            while (piles[pile] == 0 && pile < (int)piles.size() - 1)
                 pile++;
             while (true)
             {
@@ -223,23 +234,23 @@ void play(NimAI& ai, const std::vector<int>& map) {
                 auto piles = game.get_piles();
                 for (int i = 0; i < (int)piles.size(); i++) {
                     //std::cout << "  Pile " << i << ": " << piles[i] << "\n";
-                    display->pile(i, piles.size(), piles[i]);
+                    display->pile(i, (int)piles.size(), piles[i]);
                 }
 
                 display->print("Your turn", 5, 5);
-                display->arrow(pile, count, piles.size());
+                display->arrow(pile, count, (int)piles.size());
                 display->printcharacters();
                 refresh();
                 usleep(200000);
-                int inp = getch();
+                inp = getch();
                 //int maxp = ;
                 //int maxc = ;
-                if (inp == KEY_RIGHT && pile < piles.size())
+                if (inp == KEY_RIGHT && pile < (int)piles.size() - 1)
                 {
                     int temp = pile + 1;
-                    while (piles[temp] == 0)
+                    while (piles[temp] <= 0)
                     {
-                        if (temp < piles.size())
+                        if (temp < (int)piles.size())
                             temp += 1;
                         else
                         {
@@ -255,7 +266,7 @@ void play(NimAI& ai, const std::vector<int>& map) {
                 else if (inp == KEY_LEFT && pile > 0)
                 {
                     int temp = pile - 1;
-                    while (piles[temp] == 0)
+                    while (piles[temp] <= 0)
                     {
                         if (temp > 0)
                             temp -= 1;
@@ -277,7 +288,7 @@ void play(NimAI& ai, const std::vector<int>& map) {
                 {
                     count += 1;
                 }
-                else if ((inp == KEY_ENTER || inp == 10) && count >= 0 && count < piles[pile] && pile >= 0 && pile < piles.size())
+                else if ((inp == KEY_ENTER || inp == 10) && count >= 0 && count < piles[pile] && pile >= 0 && pile < (int)piles.size())
                 {
                     count = piles[pile] - count;
                     //display->error("working good" + to_string( count));
@@ -315,10 +326,10 @@ void play(NimAI& ai, const std::vector<int>& map) {
                 display->pile(i, piles.size(), piles[i]);
             }
 
-            display->print("AI chose to take ", 5, 5);
+            display->print("HawkEye turn ", 5, 5);
             //display->print("From pile " + to_string(action.first) + "pile", 20, 5);
-            int inp;
-            while (inp != KEY_ENTER)
+            inp = getch();
+            while (inp != KEY_ENTER && inp != 10)
                 inp = getch();
         }
 
@@ -327,20 +338,20 @@ void play(NimAI& ai, const std::vector<int>& map) {
 
     int winner = game.get_winner();
     if (winner == human_player) {
-        erase;
+        erase();
         display->print("You win");
         refresh();
-        int inp;
-        while (inp != KEY_ENTER)
+        inp = getch();
+        while (inp != KEY_ENTER && inp != 10)
             inp = getch();
 
     }
     else {
         erase();
-        display->print("AI wins");
+        display->print("Hawkeye wins", 15, 40);
         refresh();
-        int inp;
-        while (inp != KEY_ENTER)
+        inp = getch();
+        while (inp != KEY_ENTER && inp != 10)
             inp = getch();
     }
 }
