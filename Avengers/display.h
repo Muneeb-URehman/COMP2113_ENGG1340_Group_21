@@ -202,6 +202,16 @@ public:
 		{
 			erase();
 			mvprintw(r/2, c/4, "Make terminal size bigger");
+			for (int i = 0; i < min_c; i++)
+			{
+				mvprintw(0, i, "*");
+				mvprintw(min_r, i, "*");
+			}
+			for (int i = 1; i < min_r - 1; i++)
+			{
+				mvprintw(i, 0,"*");
+				mvprintw(i, min_c, "*");
+			}
 			refresh();
 			usleep(200000);
 			getmaxyx(stdscr, r, c);
