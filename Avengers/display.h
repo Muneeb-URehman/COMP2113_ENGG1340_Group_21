@@ -12,44 +12,36 @@
 
 using namespace std;
 
-//const int row = 6;
-//const string filename = "Alphabet.txt";
-//const string facefile = "structure.txt";
-
-//extern const int min_r = 40;
-//extern const int min_c = 150;
-
-//int scr_row = 40;
-//int scr_col = 150;
-
 class Display
 {
 	
-	const int row = 6;	
-	const string filename = "Alphabet.txt";
-	const string facefile = "structure.txt";
+	const int row = 6;// to represent the number of rows for the characters used
+	const string filename = "Alphabet.txt";// file storing characters
+	const string facefile = "structure.txt";// file storing faces, and titles
+	//minimun screen size for the game to run
 	const int min_r = 40;
 	const int min_c = 150;
-	
+
+	//data from the files are stored in these maps
  	map<char, vector<string>> character;
 	map<string, vector<string>> faces;
 	string player;
-	vector<string> faceNames;
+	vector<string> faceNames;// vector for the names of data collected from facefile for easy access
 	
 	int scr_row = 40;
 	int scr_col = 150;
 
-	void merge(vector<string>& title, const char& ch)
+	void merge(vector<string>& title, const char& ch)//merges two characters from the character map
 	{
 		vector<string> chnew = character[ch];
 
-		for (int i = 0; i < row; i++)
+		for (int i = 0; i < row; i++) // for each and every line of the title, it integrated the characters
 		{
 			title[i] += chnew[i];
 		}
 	}
 
-	void print_line(vector<string> out, int row = 0, int column = 0)
+	void print_line(vector<string> out, int row = 0, int column = 0) // the print statement on line with the title characters to be used by print(string, int, int)
 	{
 		for (const auto& line : out)
 		{	
@@ -58,7 +50,7 @@ class Display
 		
 	}
 
-	Display()	
+	Display()	// initialization of the class
 	{
 		
 		getmaxyx(stdscr, scr_row, scr_col);
@@ -66,8 +58,8 @@ class Display
 
 		checkDisplaySize();
 
-		ifstream file(filename);
-		if (!file.is_open())
+		ifstream file(filename); // reads and stores data from filename
+		if (!file.is_open()) // error handling for wrong file
 		{
 			mvprintw(scr_row / 3, scr_col / 2, "Error opening file: %s", filename.c_str());
 			refresh();
@@ -78,7 +70,7 @@ class Display
 			
 		}
 
-		string line = "\n";
+		string line = "\n";// adds the data
 		for (char a = 'A'; a <= 'Z'; a++)
 		{
 
@@ -92,13 +84,13 @@ class Display
 
 			}
 		}
-		for(int i = 0; i < row;i++)
+		for(int i = 0; i < row;i++)//adds empty space for " "
 			character[' '].push_back("      ");
 		file.close();
 
-		ifstream face(facefile);
+		ifstream face(facefile); // read and store data from facefile
 
-		if (!face.is_open())
+		if (!face.is_open())//error handling for wrong file
 		{
 			mvprintw(scr_row / 2, scr_col / 3, "Error opening file: %s", facefile.c_str());
 			refresh();
@@ -109,7 +101,7 @@ class Display
 		}
 
 
-		while (!face.eof())
+		while (!face.eof())//stores data to the map
 		{
 			string line, name;
 			getline(face, name);
@@ -128,7 +120,7 @@ class Display
 
 public:
 	
-	static Display* instance()
+	static Display* instance()//singleton for the Display class
 	{
 		static Display* instance = new Display();
 		
@@ -136,7 +128,7 @@ public:
 
 	}
 
-	void print_line(string title, int r = 0, int c = 0)
+	void print_line(string title, int r = 0, int c = 0) // to print normal text statement at (r, c)
 	{
 
 		if (r == 0 && c == 0)
@@ -150,11 +142,11 @@ public:
 
 	}
 
-	void print(string title, int r = 0, int c = 0)
+	void print(string title, int r = 0, int c = 0) // to print title or face from character map
 	{
 		checkDisplaySize();
 
-		if (faces.find(title) != faces.end())
+		if (faces.find(title) != faces.end())// to find if the title is available in face map for example AI, faces, Level titles
 		{
 			if (r == 0 && c == 0)
 		{
@@ -174,7 +166,7 @@ public:
 
 		vector<string> out(row);
 
-		for (const char& ch: title)
+		for (const char& ch: title) // print title using the character map
 		{
 			if (character.find(toupper(ch)) != character.end())
 
@@ -190,7 +182,7 @@ public:
 		}
 		
 
-		if (r == 0 && c == 0)
+		if (r == 0 && c == 0)//printing the statement using print_line()
 		{
 
 			r = scr_row/10;
@@ -200,23 +192,23 @@ public:
 		print_line(out, r, c);
 	}
 
-	void checkDisplaySize()
+	void checkDisplaySize()// to check if the terminal is bigger than the minimum size 
 	{
 
-	int r, c;
+		int r, c;
 
-	getmaxyx(stdscr, r, c);	
-	while (r < min_r || c < min_c)
-	{
-	erase();
-	mvprintw(r/2, c/4, "Make terminal size bigger");
-	refresh();
-	usleep(200000);
-	getmaxyx(stdscr, r, c);
-	}
+		getmaxyx(stdscr, r, c);	
+		while (r < min_r || c < min_c)
+		{
+			erase();
+			mvprintw(r/2, c/4, "Make terminal size bigger");
+			refresh();
+			usleep(200000);
+			getmaxyx(stdscr, r, c);
+		}
 	}
 	
-	void error(string title)
+	void error(string title)//to print error on the screen if some is found
 	{
 		erase();
 		print_line(title);
@@ -225,38 +217,34 @@ public:
 			inp = getch();
 	}
 
-	void selectCharacter()
+	void selectCharacter()// select characters from the user and stores it accordingly. 
 	{
-		int selection = 1;
+		int selection = 1;//represents the character selected by the user
 		
 		int inp;
 
 		while (true)
 		{
-		erase();
-		print("Select your one", 2, 10);
-		//will have 6 characters with size 15 height and 23 width
+			erase();
+			print("Select your one", 2, 10);
+			//will have 6 characters with size 15 height and 23 width
 		
-		int row = 10, col = 20;
-		for ( auto face:faces)
-		{
-			if (face.first.substr(0,4) != "Face")
-				continue;
-			print(face.first, row, col);
-			
-			col += 45;
-			if (col > min_c - 30)
+			int row = 10, col = 20;
+			for ( auto face:faces)// to print the characters on the screen
 			{
-				
-				
-				col = 20;
-				row += 15;
+				if (face.first.substr(0,4) != "Face")
+				continue;
+				print(face.first, row, col);
+			
+				col += 45;
+				if (col > min_c - 30)
+				{
+					col = 20;
+					row += 15;
+				}
 			}
 
-		}
-
-
-		if (selection < 4)
+		if (selection < 4)//print arrow on screen according to the position
 		{
 			print("arrow", 17, selection * 45 - 40);
 		}
@@ -270,7 +258,7 @@ public:
 
 		inp = getch();
 
-		if (inp == KEY_UP && selection > 3)
+		if (inp == KEY_UP && selection > 3) // detect movement from user to control the arrow
 			selection -= 3;
 		else if (inp == KEY_DOWN && selection < 4)
 			selection += 3;
@@ -279,25 +267,25 @@ public:
 		else if (inp == KEY_RIGHT && selection != 3 && selection != 6)
 			selection += 1;
 
-		else if (inp == KEY_ENTER || inp == 10)
+		else if (inp == KEY_ENTER || inp == 10) // enter to make the selection
 			break;
 		player = faceNames[selection + 1];
 		}
 	//endwin();
 	}
 
-	void pile(int cur, int total, int height)
+	void pile(int cur, int total, int height)//print the piles on the screen based on the height we have
 	{
 		checkDisplaySize();
 		// the pile will be between pixel between 20 on left to 120 on right
 		//total height of pile will be about 30 with a number representing the size
 
-		int posr = 30 - height;
+		int posr = 30 - height;//initializing the positions and sizes of the pile
 		int posc = (cur * 80 ) / total + 30;
 		int endc = posc + 10;
 		int endr = 30;
 
-		for (int i = posr; i < endr;i++)
+		for (int i = posr; i < endr;i++) //printing the pile on the screen
 		{
 			for (int j = posc; j < endc;j++)
 			{
@@ -306,13 +294,10 @@ public:
 				else
 					print_line("U", i, j);
 			}
-
 		}
-		
-
 	}
 
-	void arrow(int pile, int count, int total)
+	void arrow(int pile, int count, int total) // to print the arrow to represent the pile and height selected
 	{
 		checkDisplaySize();
 
@@ -322,7 +307,7 @@ public:
 		print_line("-->", posr -1, posc+1);
 	}
 
-	void printcharacters()
+	void printcharacters() // print AI character and user selected character face on the screen during the game
 	{
 		int posr = 20;
 		int posc = 0;
