@@ -60,3 +60,4 @@ NimAI train(int n_games, const std::vector<int>& initial_piles);
 void play(NimAI& ai, const std::vector<int>& initial_piles);
 
 #endif
+

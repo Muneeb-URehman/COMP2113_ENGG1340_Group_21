@@ -20,8 +20,8 @@ public:
     Nim(const std::vector<int>& initial)
         : piles(initial), player(0), winner(-1) {
 
-                display = Display::instance();
-        }
+		display = Display::instance();
+	}
 
     static std::set<std::pair<int,int>> available_actions(const std::vector<int>& piles) {
         std::set<std::pair<int,int>> actions;
@@ -84,8 +84,8 @@ public:
     NimAI(double alpha = 0.5, double epsilon = 0.1)
         : alpha(alpha), epsilon(epsilon), rng(std::random_device{}()) {
 
-                display = Display::instance();
-        }
+		display = Display::instance();
+	}
 
     double get_q_value(const std::vector<int>& state, const std::pair<int,int>& action) const {
         auto it = q.find({state, action});
@@ -140,7 +140,7 @@ public:
 
 // Train by self-play, using the “last” bookkeeping from your Python code
 NimAI train(int n_games, const std::vector<int>& map) {
-
+    
     erase();
     Display* display = Display::instance();
 
@@ -200,14 +200,14 @@ void play(NimAI& ai, const std::vector<int>& map) {
 
     while (!game.game_over()) {
         //std::cout << "\nPiles:\n";
-        erase();
+	erase();
 
-        //display->printcharacters();
+	//display->printcharacters();
 
         auto piles = game.get_piles();
         /*for (int i = 0; i < (int)piles.size(); i++) {
             //std::cout << "  Pile " << i << ": " << piles[i] << "\n";
-            display->pile(i, piles.size(),  piles[i]);
+	    display->pile(i, piles.size(),  piles[i]);
         }*/
 
         int pl = game.get_player();
@@ -218,117 +218,117 @@ void play(NimAI& ai, const std::vector<int>& map) {
             //display->print("Your turn", 5, 5);
             //while (true) {
 
-                //display->error(std::to_string(piles.size()));
-                //refresh();
-                //while(true) {}
+	    	//display->error(std::to_string(piles.size()));
+		//refresh();
+		//while(true) {}
                 int pile = 0, count = 0;
                 //std::cout << "  Choose pile: ";
+		
+		while (piles[pile] == 0 && pile < (int)piles.size() -1)
+			pile++;
+		while (true)
+		{
+			// need to understand these before implementation
+			erase();
+			auto piles = game.get_piles();
+		        for (int i = 0; i < (int)piles.size(); i++) {
+		        	//std::cout << "  Pile " << i << ": " << piles[i] << "\n";
+		 	       display->pile(i, (int)piles.size(),  piles[i]);
+		        }
 
-                while (piles[pile] == 0 && pile < (int)piles.size() -1)
-                        pile++;
-                while (true)
-                {
-                        // need to understand these before implementation
-                        erase();
-                        auto piles = game.get_piles();
-                        for (int i = 0; i < (int)piles.size(); i++) {
-                                //std::cout << "  Pile " << i << ": " << piles[i] << "\n";
-                               display->pile(i, (int)piles.size(),  piles[i]);
-                        }
+			display->print("Your turn", 5, 5);
+			display->arrow(pile, count, (int)piles.size());
+			display->printcharacters();
+			refresh();
+			usleep(200000);
+			inp = getch();
+			//int maxp = ;
+			//int maxc = ;
+			if (inp  == KEY_RIGHT && pile < (int)piles.size() - 1)
+			{
+				int temp = pile + 1;
+				while(piles[temp] <= 0)
+				{
+					if (temp < (int)piles.size())
+						temp += 1;
+					else
+					{
+						temp = pile;
+						break;
+					}
 
-                        display->print("Your turn", 5, 5);
-                        display->arrow(pile, count, (int)piles.size());
-                        display->printcharacters();
-                        refresh();
-                        usleep(200000);
-                        inp = getch();
-                        //int maxp = ;
-                        //int maxc = ;
-                        if (inp  == KEY_RIGHT && pile < (int)piles.size() - 1)
-                        {
-                                int temp = pile + 1;
-                                while(piles[temp] <= 0)
-                                {
-                                        if (temp < (int)piles.size())
-                                                temp += 1;
-                                        else
-                                        {
-                                                temp = pile;
-                                                break;
-                                        }
+				}
+				pile = temp;
+				
+				count = 0;
+			}
+			else if (inp == KEY_LEFT && pile > 0 )
+			{
+				int temp = pile - 1;
+				while (piles[temp] <= 0)
+				{
+					if (temp > 0)
+						temp -= 1;
+					else
+					{
+						temp = pile;
+						break;
+					}
+				}
+				pile = temp;
+				
+				count = 0;
+			}
+			else if (inp == KEY_DOWN && count > 0)
+			{
+				count -= 1;
+			}
+			else if (inp == KEY_UP && count < piles[pile] - 1)
+			{
+				count += 1;
+			}
+			else if ((inp == KEY_ENTER || inp == 10) && count >= 0 && count < piles[pile] && pile >= 0 && pile < (int)piles.size())
+			{
+				count = piles[pile] - count;
+				//display->error("working good" + to_string( count));
+				
+				//while (true)
+				//	sleep(1);
+				action = {pile, count};
+				break;
+			}
 
-                                }
-                                pile = temp;
-
-                                count = 0;
-                        }
-                        else if (inp == KEY_LEFT && pile > 0 )
-                        {
-                                int temp = pile - 1;
-                                while (piles[temp] <= 0)
-                                {
-                                        if (temp > 0)
-                                                temp -= 1;
-                                        else
-                                        {
-                                                temp = pile;
-                                                break;
-                                        }
-                                }
-                                pile = temp;
-
-                                count = 0;
-                        }
-                        else if (inp == KEY_DOWN && count > 0)
-                        {
-                                count -= 1;
-                        }
-                        else if (inp == KEY_UP && count < piles[pile] - 1)
-                        {
-                                count += 1;
-                        }
-                        else if ((inp == KEY_ENTER || inp == 10) && count >= 0 && count < piles[pile] && pile >= 0 && pile < (int)piles.size())
-                        {
-                                count = piles[pile] - count;
-                                //display->error("working good" + to_string( count));
-
-                                //while (true)
-                                //      sleep(1);
-                                action = {pile, count};
-                                break;
-                        }
-
-                }
+		}
                 //std::cout << "  Choose count: "; std::cin >> count;
-               /*
+               /* 
 
-                if (actions.count({pile, count})) {
+		if (actions.count({pile, count})) {
                     action = {pile, count};
                     break;
                 }
-                erase();
+		erase();
                 display->error( "Invalid move. Try again.");
-                refresh();
-                sleep(5);
+		refresh();
+		sleep(5);
             }*/
         } else {
+	    
 
-
-            sleep(2);
+	    sleep(2);
 
             action = ai.choose_action(piles, false);
-            erase();
-            display->printcharacters();
+	    erase();
+	    display->printcharacters();
             for (int i = 0; i < (int)piles.size(); i++) {
                   //std::cout << "  Pile " << i << ": " << piles[i] << "\n";
                   display->pile(i, piles.size(),  piles[i]);
             }
 
             display->print("HawkEye turn ", 5, 5);
-            //display->print("From pile " + to_string(action.first) + "pile", 20, 5);
-            inp = getch();
-            while (inp != KEY_ENTER && inp != 10)
-                inp = getch();
+	    //display->print("From pile " + to_string(action.first) + "pile", 20, 5);
+	    inp = getch();
+	    while (inp != KEY_ENTER && inp != 10)
+	    	inp = getch();
         }
 
         game.move(action);
@@ -336,19 +336,21 @@ void play(NimAI& ai, const std::vector<int>& map) {
 
     int winner = game.get_winner();
     if (winner == human_player) {
-        erase();
+    	erase();
         display->print("You win");
-        refresh();
-        inp = getch();
+	refresh();
+	inp = getch();
         while (inp != KEY_ENTER && inp != 10)
            inp = getch();
 
     } else {
-        erase();
+    	erase();
         display->print( "Hawkeye wins", 15, 40);
-        refresh();
-        inp = getch();
-        while (inp != KEY_ENTER && inp != 10)
+	refresh();
+	inp = getch();
+	while (inp != KEY_ENTER && inp != 10)
             inp = getch();
     }
 }
+                  
+
