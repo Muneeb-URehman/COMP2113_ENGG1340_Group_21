@@ -38,10 +38,10 @@ private:
     std::mt19937 rng;
 
     void update_q_value(const std::vector<int>& state,
-        const std::pair<int, int>& action,
-        double old_q,
-        double reward,
-        double future_rewards);
+                        const std::pair<int, int>& action,
+                        double old_q,
+                        double reward,
+                        double future_rewards);
 
 public:
     explicit NimAI(double alpha = 0.5, double epsilon = 0.1);
@@ -49,9 +49,9 @@ public:
     double get_q_value(const std::vector<int>& state, const std::pair<int, int>& action) const;
     double best_future_reward(const std::vector<int>& state);
     void update(const std::vector<int>& old_state,
-        const std::pair<int, int>& action,
-        const std::vector<int>& new_state,
-        double reward);
+                const std::pair<int, int>& action,
+                const std::vector<int>& new_state,
+                double reward);
 
     std::pair<int, int> choose_action(const std::vector<int>& state, bool use_epsilon = true);
 };
