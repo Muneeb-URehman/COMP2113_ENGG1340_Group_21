@@ -142,9 +142,9 @@ public:
 NimAI train(int n_games, const std::vector<int>& map) {
     
     erase();
-    Display* display = Display::instance();
+    Display* display = Display::instance(); //singleton access
 
-    display->print("Training AI", 20, 40);
+    display->print("Training AI", 20, 40);//printing loading screen for the user
     refresh();
 
     NimAI player;
@@ -182,7 +182,7 @@ NimAI train(int n_games, const std::vector<int>& map) {
         }
     }
     erase();
-    display->print("Done training", 20, 40);
+    display->print("Done training", 20, 40); // printing to show the game has been loaded/trained
     refresh();
     return player;
 }
@@ -198,56 +198,41 @@ void play(NimAI& ai, const std::vector<int>& map) {
 
     int inp = 0;
 
-    while (!game.game_over()) {
-        //std::cout << "\nPiles:\n";
+    while (!game.game_over()) {//the game loop
+	    
 	erase();
-
-	//display->printcharacters();
-
         auto piles = game.get_piles();
-        /*for (int i = 0; i < (int)piles.size(); i++) {
-            //std::cout << "  Pile " << i << ": " << piles[i] << "\n";
-	    display->pile(i, piles.size(),  piles[i]);
-        }*/
 
         int pl = game.get_player();
         std::pair<int,int> action;
         auto actions = Nim::available_actions(piles);
 
         if (pl == human_player) {
-            //display->print("Your turn", 5, 5);
-            //while (true) {
-
-	    	//display->error(std::to_string(piles.size()));
-		//refresh();
-		//while(true) {}
+		
                 int pile = 0, count = 0;
-                //std::cout << "  Choose pile: ";
 		
 		while (piles[pile] == 0 && pile < (int)piles.size() -1)
 			pile++;
-		while (true)
+		while (true)//loop for the player to select the move
 		{
-			// need to understand these before implementation
+		
 			erase();
 			auto piles = game.get_piles();
-		        for (int i = 0; i < (int)piles.size(); i++) {
-		        	//std::cout << "  Pile " << i << ": " << piles[i] << "\n";
+		        for (int i = 0; i < (int)piles.size(); i++) { //display the piles on the screen
 		 	       display->pile(i, (int)piles.size(),  piles[i]);
 		        }
 
 			display->print("Your turn", 5, 5);
-			display->arrow(pile, count, (int)piles.size());
-			display->printcharacters();
+			display->arrow(pile, count, (int)piles.size());//prints arrow on the screen
+			display->printcharacters();//prints the user character and the AI character 
 			refresh();
 			usleep(200000);
 			inp = getch();
-			//int maxp = ;
-			//int maxc = ;
-			if (inp  == KEY_RIGHT && pile < (int)piles.size() - 1)
+			
+			if (inp  == KEY_RIGHT && pile < (int)piles.size() - 1)//getting input to validate move to right
 			{
 				int temp = pile + 1;
-				while(piles[temp] <= 0)
+				while(piles[temp] <= 0)// to jump to the next pile on the right that is not empty
 				{
 					if (temp < (int)piles.size())
 						temp += 1;
@@ -262,10 +247,10 @@ void play(NimAI& ai, const std::vector<int>& map) {
 				
 				count = 0;
 			}
-			else if (inp == KEY_LEFT && pile > 0 )
+			else if (inp == KEY_LEFT && pile > 0 ) //getting input to validate move to left
 			{
 				int temp = pile - 1;
-				while (piles[temp] <= 0)
+				while (piles[temp] <= 0)// to jump to the next pile on the left that is not empty
 				{
 					if (temp > 0)
 						temp -= 1;
@@ -279,11 +264,11 @@ void play(NimAI& ai, const std::vector<int>& map) {
 				
 				count = 0;
 			}
-			else if (inp == KEY_DOWN && count > 0)
+			else if (inp == KEY_DOWN && count > 0) //getting input to validate move to down
 			{
 				count -= 1;
 			}
-			else if (inp == KEY_UP && count < piles[pile] - 1)
+			else if (inp == KEY_UP && count < piles[pile] - 1) //getting input to validate move to up
 			{
 				count += 1;
 			}
@@ -299,18 +284,7 @@ void play(NimAI& ai, const std::vector<int>& map) {
 			}
 
 		}
-                //std::cout << "  Choose count: "; std::cin >> count;
-               /* 
-
-		if (actions.count({pile, count})) {
-                    action = {pile, count};
-                    break;
-                }
-		erase();
-                display->error( "Invalid move. Try again.");
-		refresh();
-		sleep(5);
-            }*/
+		
         } else {
 	    
 
@@ -324,10 +298,9 @@ void play(NimAI& ai, const std::vector<int>& map) {
                   display->pile(i, piles.size(),  piles[i]);
             }
 
-            display->print("HawkEye turn ", 5, 5);
-	    //display->print("From pile " + to_string(action.first) + "pile", 20, 5);
+            display->print("HawkEye turn ", 5, 5); // display AI's move
 	    inp = getch();
-	    while (inp != KEY_ENTER && inp != 10)
+	    while (inp != KEY_ENTER && inp != 10)//allow user to understand what is happening and enter to move to next turn
 	    	inp = getch();
         }
 
@@ -337,7 +310,7 @@ void play(NimAI& ai, const std::vector<int>& map) {
     int winner = game.get_winner();
     if (winner == human_player) {
     	erase();
-        display->print("You win");
+        display->print("You win");//display if the user wins
 	refresh();
 	inp = getch();
         while (inp != KEY_ENTER && inp != 10)
@@ -345,7 +318,7 @@ void play(NimAI& ai, const std::vector<int>& map) {
 
     } else {
     	erase();
-        display->print( "Hawkeye wins", 15, 40);
+        display->print( "Hawkeye wins", 15, 40);//display if the AI wins
 	refresh();
 	inp = getch();
 	while (inp != KEY_ENTER && inp != 10)
