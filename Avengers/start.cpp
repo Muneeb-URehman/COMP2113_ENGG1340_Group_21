@@ -121,7 +121,7 @@ int main() {
                 display->print_line("Soul Stone by removing the last block from the last pillar.", 13, 15);
 
                 display->print("Game Overview", 15, 15);
-                display->print_line("Avengers End Game is designed for single-player gameplay, allowing you to challenge yourself against a", 22, 15);
+                display->print_line("Avengers Assemble is designed for single-player gameplay, allowing you to challenge yourself against a", 22, 15);
                 display->print_line("computer-controlled opponent. Two players take turns removing blocks from pillars.", 23, 15);
 
                 display->print_line("Good luck, and may the best strategist win!", 25, 15);
@@ -171,7 +171,7 @@ int main() {
             display->print_line("you win the game! However, if you are the one who removes the last block, you lose!", 22, 15);
 
             display->print("Level and Difficulty", 24, 15);
-            display->print_line("Avengers End Game features three difficulty levels: Easy, Normal, Challenger. Each level presents distinct challenges", 31, 15);
+            display->print_line("Avengers Assemble features three difficulty levels: Easy, Normal, Challenger. Each level presents distinct challenges", 31, 15);
             display->print_line("- Easy: The AI makes basic moves, allowing you to familiarize yourself with the game mechanics.", 32, 15);
             display->print_line("- Normal: The AI becomes more strategic, requiring you to think more critically about your moves.", 33, 15);
             display->print_line("- Challenger: The AI uses advanced tactics, making it a formidable opponent.", 34, 15);
