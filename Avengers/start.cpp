@@ -97,36 +97,32 @@ int main() {
 	
 	inp = 0;
 	while (inp != KEY_ENTER && inp != 10 && choice != 4)
-	{
-	
-		erase();//prints the first page of the about
-		display->print_line("Welcome to Avengers End Game, an engaging turn-based puzzle game that immerses you in the thrilling world of", 10, 15);
-		display->print_line("the Avengers. In this game, you are Black Widow, a skilled fighter and strategist, battling against Hawkeye,", 11, 15); 
-		display->print_line("who is controlled by an advanced AI. Your mission is to outmaneuver the AI and ensure that it picks up the", 12, 15);
-		display->print_line("last block in a game of strategy and cunning.", 13, 15);
-	
-		display->print("Game Overview",15, 15);
-		display->print_line("Avengers End Game is designed for single-player gameplay, allowing you to challenge yourself against a", 22, 15);
-		display->print_line("computer-controlled opponent. The game is based on the classic Nim game, where two players take turns", 23, 15);
-		display->print_line("removing blocks from pillars. However, this version adds unique elements related to the Avengers theme,", 24, 15);
-		display->print_line("making it a fun and exciting experience.", 25, 15);
-	
-		display->print_line("Join Black Widow in this thrilling battle against Hawkeye. Use your strategic thinking and quick reflexes", 27, 15);
-		display->print_line("to outsmart the AI and claim victory in Avengers End Game! Experience the excitement of the Avengers universe", 28, 15);
-		display->print_line("while honing your skills in this captivating puzzle game. Good luck, and may the best strategist win!", 29, 15);
-		refresh();
-		usleep(300000);
+            {
 
-		display->checkDisplaySize();
-		inp = getch();
+                erase();
+                display->print("Avengers Assemble!", 3, 15); 
+                dosplay->print_line("A turn-based puzzle game.", 10, 15);
+                display->print_line("Pick your Superhero from 6 options and fight Hawkeye to ensure that main MCU Timeline doesn't get tampered.", 11, 15);
+                display->print_line("Hawkeye is the AI. Your mission is to ensure that it picks up the Soul Stone by removing the last block", 12, 15);
+                display->print_line("from the last pillar.", 13, 15);
+
+                display->print("Game Overview", 15, 15);
+                display->print_line("Avengers Assemble is designed for single-player gameplay, allowing you to challenge yourself against a", 22, 15);
+                display->print_line("computer-controlled opponent. Two players take turns removing blocks from pillars.", 23, 15);
+
+                display->print_line("Good luck, and may the best strategist win!", 25, 15);
+                refresh();
+                usleep(300000);
+
+                display->checkDisplaySize();
+                inp = getch();
+
 		if (inp == 'q')
 		{
-		//endwin();
-		//return 0;
-		choice = 4;
-		break;
-		}
-	}
+			choice = 4;
+			break;
+
+            }
 
 	inp = 0;
 	while (inp != 10 && inp != KEY_ENTER && choice != 4)
@@ -134,23 +130,22 @@ int main() {
 
 		erase(); //the second page of the about
 		display->print("How to Play", 3, 15);
-		display->print_line("- Each player takes turns making their moves. You might start first or second randomly assigned, providing",10, 15);
-		display->print_line("competeition and uniquesituation to play the game.", 11, 15);
-	        display->print_line("- The game consists of a series of rounds where you and the AI alternate turns until all blocks are removed", 12, 15);
-		display->print_line("from the pillars.", 13, 15);
+            display->print_line("- Each player takes turns making their moves. You might start first or second randomly assigned.", 10, 15);
+            display->print_line("- The game consists of a series of rounds where you and the AI alternate turns until all blocks are removed so", 11, 15);
+            display->print_line("that Hawkeye retrieves the Soul Stone.", 12, 15);
 
-		display->print_line("- The game features multiple pillars, each stacked with a varying number of blocks. The layout of these", 14, 15);
-		display->print_line("pillars changes with different levels, adding to the challenge.", 15, 15);
-		display->print_line("- Your goal is to manage these blocks wisely, anticipating the AI's moves while planning your own.", 16, 15);
+            display->print_line("- The game features multiple pillars, each stacked with a varying number of blocks. The layout of these pillars", 14, 15);
+            display->print_line("changes with different levels.", 15, 15);
+            display->print_line("- Your goal is to manage these blocks wisely, anticipating the AI's moves while planning your own.", 16, 15);
 
-		display->print("Making Move", 18, 15);
-		display->print_line("- Selecting a Pillar: Use the left and right arrow keys to navigate through the available pillars. Each", 25, 15);
-		display->print_line("pillar's height represents the number of blocks remaining in the pillar.", 26, 15);
-	        display->print_line("- Choosing the Number of Blocks: Once you have selected a pillar, use the up and down arrow keys to determine", 27, 15);
-		display->print_line("how many blocks you wish to remove. The game will show the maximum number of blocks you can take in that turn,", 28, 15);
-		display->print_line("ensuring you play within the rules.", 29, 15);
-        	display->print_line("- Confirming Your Decision: After making your selections, press 'Enter' to confirm your move. This will update", 30, 15);
-		display->print_line("the game state and show the remaining blocks.", 31, 15);
+            display->print("Making Move", 18, 15);
+            display->print_line("- Selecting a Pillar: Use the left and right arrow keys to navigate through the available pillars. Each", 25, 15);
+            display->print_line("pillar's height represents the number of blocks remaining in the pillar.", 26, 15);
+            display->print_line("- Choosing the Number of Blocks: Once you have selected a pillar, use the up and down arrow keys to determine", 27, 15);
+            display->print_line("how many blocks you wish to remove. The game will show the maximum number of blocks you can take in that turn,", 28, 15);
+            display->print_line("ensuring you play within the rules.", 29, 15);
+            display->print_line("- Confirming Your Decision: After making your selections, press 'Enter' to confirm your move. This will update", 30, 15);
+            display->print_line("the game state and show the remaining blocks.", 31, 15);
 
 		refresh();
 		inp = getch();
@@ -169,20 +164,19 @@ int main() {
 		erase();//the third page of the about
 
 		display->print("AI Opponent", 3, 15);
-		display->print_line("After your move, it’s Hawkeye’s turn. The AI has been designed using reinforcement learning, which means it", 10, 15);  
-		display->print_line("learns from previous games to improve its strategy. You will see a message indicating that the AI is thinking", 11, 15);
-		display->print_line("about its next move. This adds an element of suspense as you wait to see what decision it makes.", 12, 15);
+            display->print_line("After your move, it’s Hawkeye’s turn. Hawkeye has been designed using reinforcement learning, which means it", 10, 15);
+            display->print_line("learns from previous games to improve its strategy. You will see a message indicating that the AI is thinking", 11, 15);
+            display->print_line("about its next move. This adds an element of suspense as you wait to see what decision it makes.", 12, 15);
 
-		display->print("Winning and Losing", 14, 15);
-		display->print_line("The main objective of Avengers End Game is to force the AI to pick up the last block. If you manage to do this,", 21, 15);
-		display->print_line("you win the game! However, if you are the one who removes the last block, you lose. This creates a tense", 22, 15);
-		display->print_line("atmosphere as both players strive to outwit each other.", 23, 15);
+            display->print("Winning and Losing", 14, 15);
+            display->print_line("The main objective of Avengers Assemble!! is to force the AI to pick up the last block. If you manage to do this,", 21, 15);
+            display->print_line("you win the game! However, if you are the one who removes the last block, you lose!", 22, 15);
 
-		display->print("Level and Difficulty", 24, 15);
-		display->print_line("Avengers End Game features three difficulty levels: Easy, Normal, Challenger. Each level presents distinct challenges", 31, 15);
-		display->print_line("- Easy: The AI makes basic moves, allowing you to familiarize yourself with the game mechanics.", 32, 15);
-		display->print_line("- Normal: The AI becomes more strategic, requiring you to think more critically about your moves.", 33, 15);
-		display->print_line("- Challenger: The AI uses advanced tactics, making it a formidable opponent.", 34, 15);
+            display->print("Level and Difficulty", 24, 15);
+            display->print_line("Avengers Assemble features three difficulty levels: Easy, Normal, Challenger. Each level presents distinct challenges", 31, 15);
+            display->print_line("- Easy: The AI makes basic moves, allowing you to familiarize yourself with the game mechanics.", 32, 15);
+            display->print_line("- Normal: The AI becomes more strategic, requiring you to think more critically about your moves.", 33, 15);
+            display->print_line("- Challenger: The AI uses advanced tactics, making it a formidable opponent.", 34, 15);
 		refresh();
 		
 		inp = getch();
