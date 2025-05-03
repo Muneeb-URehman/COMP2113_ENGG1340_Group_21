@@ -100,8 +100,8 @@ int main() {
             {
 
                 erase();
-                display->print("Avengers Assemble!", 3, 15); 
-                dosplay->print_line("A turn-based puzzle game.", 10, 15);
+                display->print("Avengers Assemble", 3, 10); 
+                display->print_line("A turn-based puzzle game.", 10, 15);
                 display->print_line("Pick your Superhero from 6 options and fight Hawkeye to ensure that main MCU Timeline doesn't get tampered.", 11, 15);
                 display->print_line("Hawkeye is the AI. Your mission is to ensure that it picks up the Soul Stone by removing the last block", 12, 15);
                 display->print_line("from the last pillar.", 13, 15);
@@ -121,7 +121,7 @@ int main() {
 		{
 			choice = 4;
 			break;
-
+		}
             }
 
 	inp = 0;
