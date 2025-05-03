@@ -23,7 +23,7 @@ public:
 		display = Display::instance();
 	}
 
-    static std::set<std::pair<int,int>> available_actions(const std::vector<int>& piles) {
+    static std::set<std::pair<int,int>> available_actions(const std::vector<int>& piles) {// Finds all possible moves through nested for-loop
         std::set<std::pair<int,int>> actions;
         for (int i = 0; i < (int)piles.size(); i++) {
             for (int j = 1; j <= piles[i]; j++) {
@@ -41,7 +41,7 @@ public:
         player = other_player(player);
     }
 
-    void move(const std::pair<int,int>& action) {
+    void move(const std::pair<int,int>& action) {// To make a move
         int pile  = action.first;
         int count = action.second;
         if (winner != -1)
@@ -59,6 +59,7 @@ public:
         }
     }
 
+	// Getters and Setters
     const std::vector<int>& get_piles() const { return piles; }
     int get_player() const { return player; }
     int get_winner() const { return winner; }
@@ -77,7 +78,8 @@ private:
                         double reward,
                         double future_rewards) {
         double target = reward + future_rewards;
-        q[{state, action}] = old_q + alpha * (target - old_q);
+        q[{state, action}] = old_q + alpha * (target - old_q);   // Q_Learning Algorithm Formula. Key: (State, Action). Value: Points/Rewards.
+                                                                 // The map stores the values of all possible states and their moves
     }
 
 public:
@@ -92,6 +94,7 @@ public:
         return it == q.end() ? 0.0 : it->second;
     }
 
+	//Finds the best reward
     double best_future_reward(const std::vector<int>& state) {
         double best = 0.0;
         for (auto& a : Nim::available_actions(state)) {
@@ -109,6 +112,7 @@ public:
         update_q_value(old_state, action, old_q, reward, future_q);
     }
 
+	// To find the best possible action. If no epsilon, returns highest reward or else chooses uniformly.
     std::pair<int,int> choose_action(const std::vector<int>& state,
                                      bool use_epsilon = true) {
         auto actions_set = Nim::available_actions(state);
@@ -138,7 +142,7 @@ public:
     }
 };
 
-// Train by self-play, using the “last” bookkeeping from your Python code
+// Train function where AI plays against itself multiple times to fill q (map).
 NimAI train(int n_games, const std::vector<int>& map) {
     
     erase();
@@ -187,7 +191,7 @@ NimAI train(int n_games, const std::vector<int>& map) {
     return player;
 }
 
-void play(NimAI& ai, const std::vector<int>& map) {
+void play(NimAI& ai, const std::vector<int>& map) { //To Start game
     Nim game(map);
 
     Display* display = Display::instance();
