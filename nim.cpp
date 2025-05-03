@@ -12,7 +12,7 @@ using StateAction = std::pair<std::vector<int>, std::pair<int,int>>;
 
 class Nim {
 private:
-    std::vector<int> piles;
+    std::vector<int> piles;  // Vector where size is the number of piles and each element stores the number of blocks
     int player;     // 0 or 1: whose turn it is
     int winner;     // -1 = no winner yet; 0 or 1 = that player won
     Display* display;
@@ -22,8 +22,8 @@ public:
 
 		display = Display::instance();
 	}
-
-    static std::set<std::pair<int,int>> available_actions(const std::vector<int>& piles) {// Finds all possible moves through nested for-loop
+	// Finds all possible moves through nested for-loop. Input: Piles. Output: A set with all possible actions. Action is a pair. Entry 1: Pile Number. Entry 2: No. of Blocks
+    static std::set<std::pair<int,int>> available_actions(const std::vector<int>& piles) {
         std::set<std::pair<int,int>> actions;
         for (int i = 0; i < (int)piles.size(); i++) {
             for (int j = 1; j <= piles[i]; j++) {
@@ -33,15 +33,18 @@ public:
         return actions;
     }
 
+	// Returns which player doesnt have turn. Input: Current player / number. Output: Other player / number.
     static int other_player(int pl) {
         return pl == 0 ? 1 : 0;
     }
 
+	// Switches the player variable so that turn changes.
     void switch_player() {
         player = other_player(player);
     }
 
-    void move(const std::pair<int,int>& action) {// To make a move
+	// Makes a move. Input: Action. 
+    void move(const std::pair<int,int>& action) {
         int pile  = action.first;
         int count = action.second;
         if (winner != -1)
@@ -60,10 +63,10 @@ public:
     }
 
 	// Getters and Setters
-    const std::vector<int>& get_piles() const { return piles; }
-    int get_player() const { return player; }
-    int get_winner() const { return winner; }
-    bool game_over() const { return winner != -1; }
+    const std::vector<int>& get_piles() const { return piles; }   // Returns all piles and blocks currently
+    int get_player() const { return player; }   // Returns current player's turn
+    int get_winner() const { return winner; }   // Returns who is the winner
+    bool game_over() const { return winner != -1; }   // Returns whether game is over 
 };
 
 class NimAI {
@@ -72,14 +75,16 @@ private:
     std::map<StateAction, double> q;
     std::mt19937 rng;
     Display* display;
+
+// Q_Learning Algorithm Formula. Key: (State, Action). Value: Points/Rewards. It updates the q value. The map stores the values of all possible states and their moves. 
+// Input: Current State, Action, Old_Q value, Old Reward and Future Reward
     void update_q_value(const std::vector<int>& state,
                         const std::pair<int,int>& action,
                         double old_q,
                         double reward,
                         double future_rewards) {
         double target = reward + future_rewards;
-        q[{state, action}] = old_q + alpha * (target - old_q);   // Q_Learning Algorithm Formula. Key: (State, Action). Value: Points/Rewards.
-                                                                 // The map stores the values of all possible states and their moves
+        q[{state, action}] = old_q + alpha * (target - old_q);   
     }
 
 public:
@@ -89,12 +94,13 @@ public:
 		display = Display::instance();
 	}
 
+	// Returns the q value/reward of a certain state (number of piles and blocks in those piles), action. Input: State, Action. Output: Reward.
     double get_q_value(const std::vector<int>& state, const std::pair<int,int>& action) const {
         auto it = q.find({state, action});
         return it == q.end() ? 0.0 : it->second;
     }
 
-	//Finds the best reward
+	// Finds the best future reward. Input: State. Output: Reward (Int)
     double best_future_reward(const std::vector<int>& state) {
         double best = 0.0;
         for (auto& a : Nim::available_actions(state)) {
@@ -103,6 +109,7 @@ public:
         return best;
     }
 
+	// Calls the update_q_value function so that the updated q value is stored. Input: Old State, Action, New State, Reward.
     void update(const std::vector<int>& old_state,
                 const std::pair<int,int>& action,
                 const std::vector<int>& new_state,
@@ -112,7 +119,7 @@ public:
         update_q_value(old_state, action, old_q, reward, future_q);
     }
 
-	// To find the best possible action. If no epsilon, returns highest reward or else chooses uniformly.
+	// To find the best possible action. If no epsilon, returns highest reward or else chooses uniformly. Input: State and Whether to use epsilon or not. Output: Action
     std::pair<int,int> choose_action(const std::vector<int>& state,
                                      bool use_epsilon = true) {
         auto actions_set = Nim::available_actions(state);
@@ -142,7 +149,7 @@ public:
     }
 };
 
-// Train function where AI plays against itself multiple times to fill q (map).
+// Train function where AI plays against itself multiple times to fill q (map). Input: Number of games and Q_Map. Output: Trained AI Class
 NimAI train(int n_games, const std::vector<int>& map) {
     
     erase();
@@ -191,7 +198,8 @@ NimAI train(int n_games, const std::vector<int>& map) {
     return player;
 }
 
-void play(NimAI& ai, const std::vector<int>& map) { //To Start game
+// To start and run the game. Runs all the loops, conditions and AI Class. Input: Trained AI Class, Q Map 
+void play(NimAI& ai, const std::vector<int>& map) {
     Nim game(map);
 
     Display* display = Display::instance();
