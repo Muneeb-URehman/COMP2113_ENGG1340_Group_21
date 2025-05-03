@@ -42,7 +42,7 @@ class Display
 	}
 
 	void print_line(vector<string> out, int row = 0, int column = 0) // the print statement on line with the title characters to be used by print(string, int, int)
-	{// input: vector storing 
+	{// input: vector storing the statements to print, and the cordinates to print at
 		for (const auto& line : out)
 		{	
 			mvwprintw(stdscr,row++, column, "%s", line.c_str());
@@ -121,7 +121,7 @@ class Display
 public:
 	
 	static Display* instance()//singleton for the Display class
-	{
+	{//output: instance of the display class
 		static Display* instance = new Display();
 		
 		return instance;
@@ -129,7 +129,7 @@ public:
 	}
 
 	void print_line(string title, int r = 0, int c = 0) // to print normal text statement at (r, c)
-	{
+	{// input: string title to print as line and coordinated to print at
 
 		if (r == 0 && c == 0)
 		{
@@ -143,7 +143,7 @@ public:
 	}
 
 	void print(string title, int r = 0, int c = 0) // to print title or face from character map
-	{
+	{//input string title to print as title and coordinates
 		checkDisplaySize();
 
 		if (faces.find(title) != faces.end())// to find if the title is available in face map for example AI, faces, Level titles
@@ -219,7 +219,7 @@ public:
 	}
 	
 	void error(string title)//to print error on the screen if some is found
-	{
+	{//string to display as error
 		erase();
 		print_line(title);
 		int inp = 0;
@@ -285,7 +285,7 @@ public:
 	}
 
 	void pile(int cur, int total, int height)//print the piles on the screen based on the height we have
-	{
+	{//input: the current pile to print, the total number of piles available, and the height
 		checkDisplaySize();
 		// the pile will be between pixel between 20 on left to 120 on right
 		//total height of pile will be about 30 with a number representing the size
@@ -308,7 +308,7 @@ public:
 	}
 
 	void arrow(int pile, int count, int total) // to print the arrow to represent the pile and height selected
-	{
+	{//input: the pile the arrow is on, the height of the arrow, and the total number of piles
 		checkDisplaySize();
 
 		int posr = 30 - count;
