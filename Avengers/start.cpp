@@ -163,16 +163,16 @@ int main() {
 
 		erase();//the third page of the about
 
-		display->print("AI Opponent", 3, 15);
+		display->print("AI Opponent", 3, 10);
             display->print_line("After your move, it’s Hawkeye’s turn. Hawkeye has been designed using reinforcement learning, which means it", 10, 15);
             display->print_line("learns from previous games to improve its strategy. You will see a message indicating that the AI is thinking", 11, 15);
             display->print_line("about its next move. This adds an element of suspense as you wait to see what decision it makes.", 12, 15);
 
-            display->print("Winning and Losing", 14, 15);
+            display->print("Winning and Losing", 14, 10);
             display->print_line("The main objective of Avengers Assemble!! is to force the AI to pick up the last block. If you manage to do this,", 21, 15);
             display->print_line("you win the game! However, if you are the one who removes the last block, you lose!", 22, 15);
 
-            display->print("Level and Difficulty", 24, 15);
+            display->print("Level and Difficulty", 24, 0);
             display->print_line("Avengers Assemble features three difficulty levels: Easy, Normal, Challenger. Each level presents distinct challenges", 31, 15);
             display->print_line("- Easy: The AI makes basic moves, allowing you to familiarize yourself with the game mechanics.", 32, 15);
             display->print_line("- Normal: The AI becomes more strategic, requiring you to think more critically about your moves.", 33, 15);
