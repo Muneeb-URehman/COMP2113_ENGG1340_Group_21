@@ -32,7 +32,7 @@ class Display
 	int scr_col = 150;
 
 	void merge(vector<string>& title, const char& ch)//merges two characters from the character map
-	{
+	{//input: takes a vector of already compiled characters, and character to add to the vector
 		vector<string> chnew = character[ch];
 
 		for (int i = 0; i < row; i++) // for each and every line of the title, it integrated the characters
@@ -42,7 +42,7 @@ class Display
 	}
 
 	void print_line(vector<string> out, int row = 0, int column = 0) // the print statement on line with the title characters to be used by print(string, int, int)
-	{
+	{// input: vector storing 
 		for (const auto& line : out)
 		{	
 			mvwprintw(stdscr,row++, column, "%s", line.c_str());
